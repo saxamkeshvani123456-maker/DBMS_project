@@ -1,0 +1,1 @@
+export function pageWindow(page,pageSize,maxSize=50){const p=Math.max(1,Number.parseInt(page,10)||1),size=Math.min(maxSize,Math.max(1,Number.parseInt(pageSize,10)||10));return{page:p,pageSize:size,firstRow:(p-1)*size+1,lastRow:p*size}}

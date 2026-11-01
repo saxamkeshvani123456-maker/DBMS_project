@@ -1,0 +1,2 @@
+import{test}from'node:test';import assert from'node:assert/strict';import{query,closePool}from'../src/db.js';
+test('Oracle schema objects exist (opt in with RUN_ORACLE_TESTS=1)',{skip:process.env.RUN_ORACLE_TESTS!=='1'},async()=>{try{const r=await query(`SELECT COUNT(*) OBJECTS FROM USER_TABLES WHERE TABLE_NAME IN('USERS','CLUBS','CLUB_MEMBERSHIPS','EVENTS','EVENT_REGISTRATIONS','ANNOUNCEMENTS','LOST_FOUND_ITEMS','ACADEMIC_RESOURCES','APPLICATION_AUDIT_LOG','ACTIVITY_LOGS')`);assert.equal(Number(r.rows[0].OBJECTS),10)}finally{await closePool()}});
