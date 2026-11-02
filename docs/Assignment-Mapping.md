@@ -4,7 +4,7 @@
 
 | Requirement | Implementation |
 |---|---|
-| Insert/update/delete procedures | `database/04_procedures_functions.sql`: `INSERT_CLUB`, `UPDATE_CLUB`, `DELETE_CLUB`; Club history relies on FK restriction. |
+| Insert/update/delete procedures | `database/04_procedures_functions.sql`: `INSERT_CLUB`, `UPDATE_CLUB`, `DELETE_CLUB`; `DELETE_CLUB` removes dependent registrations, memberships, club announcements, and events in foreign-key order. Event audit rows are retained. |
 | Database users and roles | `database/07_security_roles.sql`; placeholder secrets; guest/app/developer roles, no DBA grant to app. |
 | Login-data procedure | `CHECK_LOGIN_HASH`; compares a precomputed hash for the exercise. Production bcrypt comparison is in `server/src/routes/auth.js`, never plaintext storage. |
 | Explicit cursor | `LIST_CLUBS` uses OPEN/FETCH/EXIT WHEN/CLOSE without limit. |

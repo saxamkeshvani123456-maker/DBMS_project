@@ -18,6 +18,21 @@ Requirements: Node.js 20+, Oracle Database Free 23ai or Oracle 19c+, SQLcl/SQL*P
 - `database/08_query_examples.sql`: joins, subquery, correlated subquery, aggregate and update examples.
 - `database/09_benchmark.sql`, `09a_benchmark_before.sql`, `09b_benchmark_after.sql`: repeatable before/after index plans and elapsed-time captures (use a disposable schema).
 - `database/10_verify_objects.sql`: checks Oracle compilation errors and expected objects.
+- `database/11_reset_demo_data.sql`: deletes CampusConnect application rows while preserving schema objects. It is destructive; run only when you intend to clear the current data.
+- `database/12_delete_club_cascade.sql`: replaces `DELETE_CLUB` so an administrator can delete a club and its dependent memberships, events, registrations, and club announcements. Event audit rows are retained.
 - `npm test`: backend/client tests; Oracle integration is skipped unless `RUN_ORACLE_TESTS=1` and connection variables are set.
+
+## Resetting the demo data
+
+To remove application data you entered and restore the fictional demo records:
+
+1. In SQL Developer, connect to the `FREEPDB1` PDB using the `CAMPUSCONNECT` schema-owner account. The connection's **Username** must be `CAMPUSCONNECT`; its display name can be anything.
+2. Open `database/11_reset_demo_data.sql` and press **F5**. This clears application rows but keeps tables, views, procedures, triggers, and indexes.
+3. Temporarily set `ORACLE_USER` and `ORACLE_PASSWORD` in `server/.env` to the schema-owner credentials. From the repository root, run `npm --workspace server run seed`.
+4. Restore the `CAMPUS_APP` credentials in `server/.env` before running the app again.
+
+## Allowing club deletion
+
+After the base schema and PL/SQL scripts are installed, open `database/12_delete_club_cascade.sql` in SQL Developer using the `CAMPUSCONNECT` connection to `FREEPDB1`, then press **F5**. This updates the stored `DELETE_CLUB` procedure used by the admin console and DBMS Lab. Deleting a club also deletes its memberships, events, event registrations, and club-specific announcements.
 
 Database SQL has not been run against an Oracle instance in this workspace. Follow the run order and inspect `USER_ERRORS`; do not treat generated SQL as proof of Oracle execution. See [docs/Project-Report.md](docs/Project-Report.md), [docs/Assignment-Mapping.md](docs/Assignment-Mapping.md), and [docs/Viva-Guide.md](docs/Viva-Guide.md).
